@@ -30,10 +30,6 @@ class RequestsTest extends TestCase
 
     private function buildRequestAddressToPoint()
     {
-        $timestamp = new \DateTime();
-		$timezone = new \DateTimeZone('Europe/Rome');
-		$timestamp->setTimezone($timezone);
-
         $recipient = new ShipmentContact();
 		$recipient->setFirstName("Mario")
             ->setLastName("Rossi")
