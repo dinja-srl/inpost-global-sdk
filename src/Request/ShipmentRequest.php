@@ -25,7 +25,7 @@ class ShipmentRequest extends BaseRequest
     private $shipment;
 
 
-    public function call($debug = FALSE)
+    public function call()
     {
         switch($this->serviceType) {
             case 'A2P':
@@ -42,7 +42,7 @@ class ShipmentRequest extends BaseRequest
                 break;
         }
 
-        return new ShipmentResponse(parent::call($debug));
+        return new ShipmentResponse(parent::call());
     }
 
     public function toArray()

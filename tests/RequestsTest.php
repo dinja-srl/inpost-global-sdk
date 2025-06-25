@@ -84,7 +84,7 @@ class RequestsTest extends TestCase
     {
         $request = $this->buildRequestAddressToPoint();
 
-        $response = $request->call(self::debug);
+        $response = $request->call();
 
         $this->assertInstanceOf('Dinja\InPostGlobalSDK\Response\ShipmentResponse', $response);
         $this->assertTrue($response->getStatus() == "CREATED");
@@ -108,7 +108,7 @@ class RequestsTest extends TestCase
         $request = new LabelRequest(self::inpost_api_client_id, self::inpost_api_client_secret, self::debug);
         $request->setApiPath($shipmentResponse->getLabel());
 
-        $response = $request->call(self::debug);
+        $response = $request->call();
         $this->assertInstanceOf('Dinja\InPostGlobalSDK\Response\LabelResponse', $response);
 
         return $response;

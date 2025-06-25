@@ -11,6 +11,7 @@ abstract class BaseRequest implements RequestInterface
 {
     protected $accessToken;
     protected $clientId;
+    protected $debug;
     protected $command = '';
     protected $method = 'POST';
     protected $endpointTest = 'https://sandbox-api.inpost-group.com';
@@ -32,7 +33,9 @@ abstract class BaseRequest implements RequestInterface
             'grant_type' => "client_credentials"
         ];
 
-        $response = $client->request('POST', ($debug ? $this->endpointTest : $this->endpointProd) . "/auth/token", ['form_params' => $authRequestBody]);
+        $this->debug = $debug;
+
+        $response = $client->request('POST', ($this->debug ? $this->endpointTest : $this->endpointProd) . "/auth/token", ['form_params' => $authRequestBody]);
         $body = $response->getBody();
         $body = json_decode($response->getBody());
 
@@ -50,13 +53,13 @@ abstract class BaseRequest implements RequestInterface
      * @throws GuzzleException
      * @throws InvalidJsonException|RequestException
      */
-    public function call($debug = FALSE)
+    public function call()
     {
         $client = new Client([
             'timeout' => 30.0
         ]);
 
-        $response = $client->request($this->method, ($debug ? $this->endpointTest : $this->endpointProd) . $this->apiPath, [
+        $response = $client->request($this->method, ($this->debug ? $this->endpointTest : $this->endpointProd) . $this->apiPath, [
             'headers'       => ['X-Request-Id' => uniqid(), 'Authorization' => 'Bearer ' . $this->accessToken],
             'json'          => $this->createRequestBody()
         ]);

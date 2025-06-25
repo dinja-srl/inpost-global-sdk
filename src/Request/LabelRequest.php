@@ -20,7 +20,7 @@ class LabelRequest extends BaseRequest
      * @throws GuzzleException
      * @throws InvalidJsonException|RequestException
      */
-    public function call($debug = FALSE)
+    public function call()
     {
         $client = new Client([
             'timeout' => 30.0

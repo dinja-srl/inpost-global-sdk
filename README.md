@@ -67,7 +67,7 @@ $request = new ShipmentRequest("inpost_api_client_id", "inpost_api_client_secret
 $request->setLabelFormat("PDF_URL")
     ->setShipment($shipment);
 
-$shipmentResponse = $request->call(self::debug);
+$shipmentResponse = $request->call();
 
 if ($shipmentResponse->hasError()) {
     echo $shipmentResponse->getTitle();
@@ -83,7 +83,7 @@ $debug = true;
 $request = new LabelRequest("inpost_api_client_id", "inpost_api_client_secret", $debug);
 $request->setApiPath($shipmentLabelUrl);
 
-$response = $request->call($debug);
+$response = $request->call();
 
 if ($response->hasError()) {
     echo $response->getStatus();
@@ -100,7 +100,7 @@ $request = new LabelRequest("inpost_api_client_id", "inpost_api_client_secret", 
 $request->setApiPath($shipmentLabelUrl);
 $request->setLabelFormat("ZPL");
 
-$response = $request->call($debug);
+$response = $request->call();
 
 if ($response->hasError()) {
     echo $response->getStatus();
