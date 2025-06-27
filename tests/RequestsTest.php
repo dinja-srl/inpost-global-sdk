@@ -76,6 +76,52 @@ class RequestsTest extends TestCase
         return $request;
     }
 
+    private function buildRequestPointoPoint()
+    {
+        $recipient = new ShipmentContact();
+		$recipient->setFirstName("Mario")
+            ->setLastName("Rossi")
+			->setPhonePrefix("+39")
+            ->setPhoneNumber("0803009954")
+            ->setEmail("info@sellengine.it");
+
+        $sender = new ShipmentContact();
+		$sender->setCompanyName("Dinja Srl")
+			->setPhonePrefix("+39")
+            ->setPhoneNumber("0803009954")
+            ->setEmail("info@sellengine.it");
+
+        $origin = new ShipmentPoint();
+		$origin->setCountryCode("IT")
+			->setShippingMethods(["APM","PUDO","HUB"]);
+
+        $destination = new ShipmentPoint();
+		$destination->setCountryCode("IT")
+			->setPointName("AAATESTPOK9");
+
+        $parcel = new ShipmentParcel();
+        $parcel->setWeightAmount("1")
+            ->setWeightUnit("KG")
+            ->setHeight("1")
+            ->setLength("1")
+            ->setWidth("1")
+            ->setDimensionsUnit("CM");
+
+        $shipment = new Shipment();
+		$shipment->setSender($sender)
+			->setRecipient($recipient)
+			->setOriginAddress($origin)
+            ->setDestinationPoint($destination)
+			->setParcel($parcel);
+
+        $request = new ShipmentRequest(self::inpost_api_client_id, self::inpost_api_client_secret, self::debug);
+        $request->setLabelFormat("PDF_URL")
+            ->setShipment($shipment)
+            ->setServiceType("P2P");
+
+        return $request;
+    }
+
     public function testShipmentAddressToPointSuccessful()
     {
         $request = $this->buildRequestAddressToPoint();
@@ -106,6 +152,19 @@ class RequestsTest extends TestCase
 
         $response = $request->call();
         $this->assertInstanceOf('Dinja\InPostGlobalSDK\Response\LabelResponse', $response);
+
+        return $response;
+    }
+
+    public function testShipmentPointToPointSuccessful()
+    {
+        $request = $this->buildRequestAddressToPoint();
+
+        $response = $request->call();
+
+        $this->assertInstanceOf('Dinja\InPostGlobalSDK\Response\ShipmentResponse', $response);
+        $this->assertTrue($response->getStatus() == "CREATED");
+        $this->assertFalse($response->hasError());
 
         return $response;
     }
