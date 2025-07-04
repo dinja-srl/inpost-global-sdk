@@ -15,7 +15,7 @@ abstract class BaseRequest implements RequestInterface
     protected $command = '';
     protected $method = 'POST';
     protected $endpointTest = 'https://sandbox-api.inpost-group.com';
-    protected $endpointProd = '"https://api.inpost-group.com';
+    protected $endpointProd = 'https://api.inpost-group.com';
     protected $apiPath = '';
     protected $apiProperties = [];
     protected $mandatoryFields = [];
